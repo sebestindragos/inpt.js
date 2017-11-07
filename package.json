@@ -1,0 +1,35 @@
+{
+  "name": "inpt.js",
+  "version": "0.0.0-alpha",
+  "description": "Schema based input transformer for node.js",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebestindragos/inpt.js.git"
+  },
+  "keywords": [
+    "input",
+    "node.js"
+  ],
+  "author": "Dragos Sebestin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebestindragos/inpt.js/issues"
+  },
+  "homepage": "https://github.com/sebestindragos/inpt.js#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^4.3.1",
+    "gulp-sequence": "^0.4.6",
+    "gulp-typescript": "^3.2.3",
+    "mocha": "^4.0.1",
+    "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "date-fns": "^1.29.0"
+  }
+}
