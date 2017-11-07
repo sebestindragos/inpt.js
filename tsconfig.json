@@ -5,6 +5,7 @@
     "target": "es6",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "declaration": true
   }
 }

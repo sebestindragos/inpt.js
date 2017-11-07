@@ -1,5 +1,6 @@
 node_modules/
 src/
+build/tests
 gulpfile.js
 tsconfig.json
 
