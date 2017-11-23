@@ -11,13 +11,11 @@ export class String extends TypeBase {
    * Transform input.
    */
   transform () : string {
-    if (this._originalValue === undefined || this._originalValue === null)
-      return '';
-
+    // check for valid Date and otherwise try to convert it or return empty string
     if (typeof this._originalValue === 'number')
       return this._originalValue.toString();
 
-    if (typeof this._originalValue === 'object')
+    if (typeof this._originalValue === 'object' && this._originalValue !== null)
       return JSON.stringify(this._originalValue);
 
     if (typeof this._originalValue === 'string')

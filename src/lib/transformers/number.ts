@@ -11,14 +11,7 @@ export class Number extends TypeBase {
    * Transform input.
    */
   transform () : number {
-    if (
-      this._originalValue === undefined ||
-      this._originalValue === null ||
-      typeof this._originalValue === 'object'
-    ) {
-      return NaN;
-    }
-
+    // check for valid Number and otherwise return NaN
     if (typeof this._originalValue === 'number')
       return this._originalValue;
 
