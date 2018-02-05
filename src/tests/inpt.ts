@@ -2,6 +2,7 @@ import 'mocha';
 import {expect} from 'chai';
 
 import {Inpt, Schema} from '../main';
+import {TypeBase} from '../lib/transformers/typeBase';
 
 describe('Inpt class', () => {
   it ('should apply a given schema to an input.', () => {
@@ -75,5 +76,23 @@ describe('Inpt class', () => {
 
     expect(transformed.profile.name).to.eq('{"$set":null}');
     expect(transformed.profile.age).to.be.NaN;
+  });
+
+  it ('should apply a custom transformer', () => {
+    class Custom extends TypeBase {
+      transform () {
+        return [this._originalValue];
+      }
+    }
+
+    let inpt = new Inpt(new Schema({
+      data: Custom
+    }));
+
+    let transformed = inpt.transform({
+      data: 'custom payload',
+    });
+
+    expect(transformed.data.length).to.eq(1);
   });
 });
