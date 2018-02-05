@@ -3,9 +3,9 @@ import {String} from './transformers/string';
 import {Number} from './transformers/number';
 import {Datee} from './transformers/date';
 
-type TypeTransformer = {new (value: any) : TypeBase};
+export type TypeTransformer = {new (value: any) : TypeBase};
 
-interface SchemaInput {
+export interface SchemaInput {
   [key: string]: TypeTransformer | Array<TypeTransformer> | SchemaInput
 }
 
@@ -34,9 +34,9 @@ export class Schema {
   /**
    * Apply a schema transform to a given input.
    */
-  private applyTransform (input: any, schema: SchemaInput) {
+  private applyTransform (input: any, schema: SchemaInput) : Object {
     if (!input || (typeof input !== 'object'))
-      return {};
+      input = {};
 
     let projectedInput: any = {};
     for (const key in schema) {
@@ -46,11 +46,15 @@ export class Schema {
         let transformer = new TransformerClass(input[key]);
         projectedInput[key] = transformer.transform();
       } else if (Array.isArray(transformerType)) {
+        let TransformerClass: TypeTransformer = transformerType[0];
         let arrayInput = input[key];
-        projectedInput[key] = transformerType.map((TransformerClass, index) => {
-          let transformer = new TransformerClass(arrayInput[index]);
-          return transformer.transform();
-        });
+        projectedInput[key] = [];
+        if (Array.isArray(arrayInput)) {
+          arrayInput.forEach(item => {
+            let transformer = new TransformerClass(item);
+            projectedInput[key].push(transformer.transform());
+          });
+        }
       } else if (typeof transformerType === 'object') {
         let childSchema: SchemaInput = transformerType;
         projectedInput[key] = this.applyTransform(input[key], childSchema);

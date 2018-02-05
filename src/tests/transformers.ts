@@ -1,4 +1,4 @@
-import {describe, it} from 'mocha';
+import 'mocha';
 import {expect} from 'chai';
 
 import {String} from '../lib/transformers/string';
