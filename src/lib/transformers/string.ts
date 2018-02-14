@@ -11,8 +11,13 @@ export class String extends TypeBase {
    * Transform input.
    */
   transform () : string {
-    if (this._originalValue === undefined || this._originalValue === null)
+    if (
+      this._originalValue === undefined
+        ||
+      this._originalValue === null
+    ) {
       return '';
+    }
 
     if (typeof this._originalValue === 'number')
       return this._originalValue.toString();

@@ -6,7 +6,7 @@ import {Datee} from './transformers/date';
 export type TypeTransformer = {new (value: any) : TypeBase};
 
 export interface SchemaInput {
-  [key: string]: TypeTransformer | Array<TypeTransformer> | SchemaInput
+  [key: string]: TypeTransformer | Array<TypeTransformer> | SchemaInput | Array<SchemaInput>
 }
 
 /**
@@ -45,8 +45,8 @@ export class Schema {
         let TransformerClass: TypeTransformer = transformerType;
         let transformer = new TransformerClass(input[key]);
         projectedInput[key] = transformer.transform();
-      } else if (Array.isArray(transformerType)) {
-        let TransformerClass: TypeTransformer = transformerType[0];
+      } else if (Array.isArray(transformerType) && typeof transformerType[0] === 'function') {
+        let TransformerClass: TypeTransformer = transformerType[0] as TypeTransformer;
         let arrayInput = input[key];
         projectedInput[key] = [];
         if (Array.isArray(arrayInput)) {
@@ -55,8 +55,19 @@ export class Schema {
             projectedInput[key].push(transformer.transform());
           });
         }
+      } else if (Array.isArray(transformerType) && typeof transformerType[0] === 'object') {
+        let childSchema: SchemaInput = transformerType[0] as SchemaInput;
+        let arrayInput = input[key];
+        projectedInput[key] = [];
+        if (Array.isArray(arrayInput)) {
+          arrayInput.forEach(item => {
+            projectedInput[key].push(
+              this.applyTransform(item, childSchema)
+            );
+          });
+        }
       } else if (typeof transformerType === 'object') {
-        let childSchema: SchemaInput = transformerType;
+        let childSchema: SchemaInput = transformerType as SchemaInput;
         projectedInput[key] = this.applyTransform(input[key], childSchema);
       }
     }

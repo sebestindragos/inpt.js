@@ -95,4 +95,30 @@ describe('Inpt class', () => {
 
     expect(transformed.data.length).to.eq(1);
   });
+
+  it ('should transform an array to given subschema', () => {
+    let inpt = new Inpt(new Schema({
+      people: [{
+        name: Schema.Types.String,
+        age: Schema.Types.Number,
+        id: Schema.Types.Number,
+      }]
+    }));
+
+    let transformed = inpt.transform({
+      people: [{
+        name: 'dragos',
+        age: 25
+      }]
+    });
+
+    expect(transformed.people.length).to.eq(1);
+    expect(JSON.stringify(transformed)).to.equal(JSON.stringify({
+      people: [{
+        name: 'dragos',
+        age: 25,
+        id: NaN
+      }]
+    }));
+  });
 });
