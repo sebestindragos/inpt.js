@@ -2,6 +2,7 @@ import {TypeBase} from './transformers/typeBase';
 import {String} from './transformers/string';
 import {Number} from './transformers/number';
 import {Datee} from './transformers/date';
+import {Boolean} from './transformers/boolean';
 
 export type TypeTransformer = {new (value: any) : TypeBase};
 
@@ -16,7 +17,7 @@ export interface SchemaInput {
  */
 export class Schema {
   static Types = {
-    String, Number, Date: Datee
+    String, Number, Date: Datee, Boolean
   };
 
   /**

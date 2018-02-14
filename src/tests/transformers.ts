@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {String} from '../lib/transformers/string';
 import {Number} from '../lib/transformers/number';
 import {Datee} from '../lib/transformers/date';
+import {Boolean} from '../lib/transformers/boolean';
 
 describe('Transformers', () => {
   describe('String', () => {
@@ -82,6 +83,33 @@ describe('Transformers', () => {
       let date = new Date(2017, 10, 7);
       let transformer = new Datee('2017-11-7');
       expect(transformer.transform().getTime()).to.equal(date.getTime());
+    });
+  });
+
+  describe('Boolean', () => {
+    it ('should transform non boolean value to it\'s truthy representation', () => {
+      let transformer = new Boolean(1);
+      expect(transformer.transform()).to.equal(true);
+
+      transformer = new Boolean(0);
+      expect(transformer.transform()).to.equal(false);
+
+      transformer = new Boolean('asd');
+      expect(transformer.transform()).to.equal(true);
+
+      transformer = new Boolean('');
+      expect(transformer.transform()).to.equal(false);
+
+      transformer = new Boolean({});
+      expect(transformer.transform()).to.equal(true);
+    });
+
+    it ('should transform a boolean value to it\'s original value', () => {
+      let transformer = new Boolean(true);
+      expect(transformer.transform()).to.equal(true);
+
+      transformer = new Boolean(false);
+      expect(transformer.transform()).to.equal(false);
     });
   });
 });
