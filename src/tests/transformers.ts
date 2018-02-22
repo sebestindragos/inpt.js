@@ -77,7 +77,10 @@ describe('Transformers', () => {
 
   describe('Datee', () => {
     it ('should transform a non-date input to a default date object', () => {
-
+      let transformer = new Datee('');
+      let now = new Date();
+      let transformedDate = transformer.transform();
+      expect(transformedDate.getMinutes()).to.be.equal(now.getMinutes());
     });
     it ('should parse a string to a valid date object', () => {
       let date = new Date(2017, 10, 7);

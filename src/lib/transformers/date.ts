@@ -1,4 +1,4 @@
-import {parse, isDate} from 'date-fns';
+import {parse, isDate, isValid} from 'date-fns';
 import {TypeBase} from './typeBase';
 
 /**
@@ -24,8 +24,13 @@ export class Datee extends TypeBase {
       return new Date();
     }
 
-    if (typeof this._originalValue === 'string')
-      return parse(this._originalValue);
+    if (typeof this._originalValue === 'string') {
+      let date = parse(this._originalValue);
+      if (!isValid(date))
+        return new Date();
+
+      return date;
+    }
 
     return new Date();
   }
