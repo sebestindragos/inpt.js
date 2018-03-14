@@ -5,7 +5,7 @@ import {TypeBase} from './typeBase';
  *
  * @author Dragos Sebestin
  */
-export class String extends TypeBase {
+export class StringTransformer extends TypeBase {
 
   /**
    * Transform input.

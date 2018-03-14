@@ -16,7 +16,7 @@ describe('Inpt class', () => {
     let transformed = inpt.transform({
       name: 'Dragos',
       email: 'dragos@email.com',
-      age: "20a",
+      age: "20",
       birthDate: '1993-01-04'
     });
 

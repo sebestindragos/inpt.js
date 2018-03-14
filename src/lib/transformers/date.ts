@@ -6,7 +6,7 @@ import {TypeBase} from './typeBase';
  *
  * @author Dragos Sebestin
  */
-export class Datee extends TypeBase {
+export class DateTransformer extends TypeBase {
 
   /**
    * Transform input.

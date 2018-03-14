@@ -5,7 +5,7 @@ import {TypeBase} from './typeBase';
  *
  * @author Dragos Sebestin
  */
-export class Boolean extends TypeBase {
+export class BooleanTransformer extends TypeBase {
 
   /**
    * Transform input.

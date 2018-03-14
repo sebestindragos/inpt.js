@@ -5,7 +5,7 @@ import {TypeBase} from './typeBase';
  *
  * @author Dragos Sebestin
  */
-export class Number extends TypeBase {
+export class NumberTransformer extends TypeBase {
 
   /**
    * Transform input.
@@ -23,7 +23,7 @@ export class Number extends TypeBase {
       return this._originalValue;
 
     if (typeof this._originalValue === 'string')
-      return parseInt(this._originalValue);
+      return Number(this._originalValue);
 
     return NaN;
   }
