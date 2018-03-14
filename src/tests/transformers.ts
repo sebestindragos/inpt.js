@@ -84,7 +84,7 @@ describe('Transformers', () => {
     });
     it ('should parse a string to a valid date object', () => {
       let date = new Date(2017, 10, 7);
-      let transformer = new DateTransformer('2017-11-7');
+      let transformer = new DateTransformer('2017-11-07');
       expect(transformer.transform().getTime()).to.equal(date.getTime());
     });
   });

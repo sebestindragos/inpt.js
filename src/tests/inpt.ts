@@ -17,14 +17,14 @@ describe('Inpt class', () => {
       name: 'Dragos',
       email: 'dragos@email.com',
       age: "20",
-      birthDate: '1993-01-04'
+      birthDate: '1993-01-04T00:00:00.000Z'
     });
 
     expect(JSON.stringify(transformed)).to.equal(JSON.stringify({
       name: 'Dragos',
       email: 'dragos@email.com',
       age: 20,
-      birthDate: "1993-01-03T22:00:00.000Z"
+      birthDate: "1993-01-04T00:00:00.000Z"
     }));
   });
 
