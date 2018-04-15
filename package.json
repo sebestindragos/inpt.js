@@ -1,6 +1,6 @@
 {
   "name": "inpt.js",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Schema based input transformer for node.js",
   "main": "build/main.js",
   "types": "build/main.d.ts",
