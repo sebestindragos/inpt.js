@@ -105,6 +105,9 @@ describe('Transformers', () => {
 
       transformer = new BooleanTransformer({});
       expect(transformer.transform()).to.equal(true);
+
+      transformer = new BooleanTransformer('false');
+      expect(transformer.transform()).to.equal(false);
     });
 
     it ('should transform a boolean value to it\'s original value', () => {
