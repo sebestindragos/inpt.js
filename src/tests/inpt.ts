@@ -121,4 +121,54 @@ describe('Inpt class', () => {
       }]
     }));
   });
+
+  it ('should avoid transforms if a schema is optional and there is no provided value', () => {
+    let inpt = new Inpt(new Schema({
+      stringValue: Schema.Types.Optional(Schema.Types.String)
+    }));
+
+    let transformed = inpt.transform({});
+
+    expect(JSON.stringify(transformed)).to.equal(JSON.stringify({}));
+  });
+
+  it ('should apply optional transform', () => {
+    let inpt = new Inpt(new Schema({
+      stringValue: Schema.Types.Optional(Schema.Types.String),
+      numberValue: Schema.Types.Optional(Schema.Types.Number),
+      embedded: Schema.Types.Optional({
+        from: Schema.Types.Number,
+        to: Schema.Types.Number
+      }),
+    }));
+
+    let transformed = inpt.transform({
+      stringValue: 'asd',
+      numberValue: 25
+    });
+
+    expect(JSON.stringify(transformed)).to.equal(JSON.stringify({
+      stringValue: 'asd',
+      numberValue: 25
+    }));
+
+    transformed = inpt.transform({
+      embedded: {}
+    });
+
+    expect(transformed.embedded.from).to.be.NaN;
+    expect(transformed.embedded.to).to.be.NaN;
+
+    transformed = inpt.transform({
+      embedded: {
+        from: 25,
+        to: 28
+      }
+    });
+
+    expect(transformed.stringValue).to.be.undefined;
+    expect(transformed.numberValue).to.be.undefined;
+    expect(transformed.embedded.from).to.be.eq(25);
+    expect(transformed.embedded.to).to.be.eq(28);
+  });
 });

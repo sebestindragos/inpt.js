@@ -3,11 +3,12 @@ import {StringTransformer} from './transformers/string';
 import {NumberTransformer} from './transformers/number';
 import {DateTransformer} from './transformers/date';
 import {BooleanTransformer} from './transformers/boolean';
+import {OptionalTransformer} from './transformers/optional';
 
 export type TypeTransformer = {new (value: any) : TypeBase};
 
 export interface SchemaInput {
-  [key: string]: TypeTransformer | Array<TypeTransformer> | SchemaInput | Array<SchemaInput>
+  [key: string]: TypeTransformer | OptionalTransformer | Array<TypeTransformer> | SchemaInput | Array<SchemaInput>
 }
 
 /**
@@ -17,7 +18,13 @@ export interface SchemaInput {
  */
 export class Schema {
   static Types = {
-    String: StringTransformer, Number: NumberTransformer, Date: DateTransformer, Boolean: BooleanTransformer
+    String: StringTransformer,
+    Number: NumberTransformer,
+    Date: DateTransformer,
+    Boolean: BooleanTransformer,
+    Optional: function (schema: TypeTransformer | Array<TypeTransformer> | SchemaInput | Array<SchemaInput>) {
+      return new OptionalTransformer(schema);
+    }
   };
 
   /**
@@ -42,7 +49,13 @@ export class Schema {
     let projectedInput: any = {};
     for (const key in schema) {
       let transformerType = schema[key];
-      if (typeof transformerType === 'function') {
+      if (transformerType instanceof OptionalTransformer) {
+        if (input[key] !== undefined) {
+          let optional: OptionalTransformer = transformerType;
+          let result = this.applyTransform(input, {[key]: optional.schema});
+          projectedInput[key] = result[key];
+        }
+      } else if (typeof transformerType === 'function') {
         let TransformerClass: TypeTransformer = transformerType;
         let transformer = new TransformerClass(input[key]);
         projectedInput[key] = transformer.transform();
